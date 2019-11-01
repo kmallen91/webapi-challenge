@@ -1,5 +1,7 @@
 const express = require('express')
 
+const projectRouter = require('./projectRouter')
+
 const server = express()
 
 server.get('/', (req, res) => {
@@ -7,5 +9,7 @@ server.get('/', (req, res) => {
 })
 
 server.use(express.json())
+server.use(`api/projects`, projectRouter)
+
 
 module.exports = server
