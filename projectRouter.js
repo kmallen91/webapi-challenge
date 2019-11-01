@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
    
 })
 
-router.post('/:id/actions', (req, res) => {
+router.post('/:id/actions', validateProjectID, (req, res) => {
     const {id} = req.params
     const {project_id, description, notes} = req.body
     if (project_id && description && notes){
@@ -64,7 +64,7 @@ router.put('/:id', (req, res) =>{
     }
 })
 
-router.put('/:id/actions/:id', (req, res)=> {
+router.put('/:id/actions/:id', validateProjectID, (req, res)=> {
     const {id} = req.params
     const {project_id, description, notes} = req.body
     if (id) {
@@ -106,5 +106,14 @@ router.delete('/:id/actions/:id', (req,res) => {
         res.status(400).json({message: 'please provide a valid action ID'})
     }
 })
+
+// middleware
+
+function validateProjectID(req, res, next) {
+    const {id} = req.params
+    id
+    ? next()
+    : res.status(400).json({message: 'not a valid project ID'})
+}
 
 module.export = router
